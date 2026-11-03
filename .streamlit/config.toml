@@ -1,0 +1,14 @@
+[theme]
+base = "light"
+primaryColor = "#0F766E"
+backgroundColor = "#F6FAF9"
+secondaryBackgroundColor = "#E3EFEC"
+textColor = "#0B2E2A"
+font = "sans serif"
+
+[server]
+# Test files only (~30 KB); a low cap protects the free-tier instance.
+maxUploadSize = 20
+
+[browser]
+gatherUsageStats = false

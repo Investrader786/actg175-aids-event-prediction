@@ -35,6 +35,31 @@ BINARY_FEATURES = ["hemo", "homo", "drugs", "oprior", "z30", "race", "gender",
 NOMINAL_FEATURES = ["trt", "strat"]
 FEATURE_COLUMNS = CONTINUOUS_FEATURES + BINARY_FEATURES + NOMINAL_FEATURES
 
+FEATURE_DESCRIPTIONS = {
+    "age": "Age in years at baseline",
+    "wtkg": "Weight in kg at baseline",
+    "karnof": "Karnofsky performance score (0-100; higher = better daily functioning)",
+    "preanti": "Days of antiretroviral therapy before the trial",
+    "cd40": "CD4 count at baseline (cells/mm3)",
+    "cd420": "CD4 count at 20 +/- 5 weeks",
+    "cd80": "CD8 count at baseline (cells/mm3)",
+    "cd820": "CD8 count at 20 +/- 5 weeks",
+    "hemo": "Haemophilia (0 = no, 1 = yes)",
+    "homo": "Homosexual activity (0 = no, 1 = yes)",
+    "drugs": "History of intravenous drug use (0 = no, 1 = yes)",
+    "oprior": "Non-ZDV antiretroviral therapy before the trial (0 = no, 1 = yes)",
+    "z30": "ZDV in the 30 days before the trial (0 = no, 1 = yes)",
+    "race": "Race (0 = white, 1 = non-white)",
+    "gender": "Gender (0 = female, 1 = male)",
+    "str2": "Antiretroviral history (0 = naive, 1 = experienced)",
+    "symptom": "Symptomatic at baseline (0 = no, 1 = yes)",
+    "treat": "Treatment indicator (0 = ZDV only, 1 = any other arm)",
+    "offtrt": "Went off treatment before 96 +/- 5 weeks (0 = no, 1 = yes)",
+    "trt": "Treatment arm (0 = ZDV only, 1 = ZDV + ddI, 2 = ZDV + zalcitabine, 3 = ddI only)",
+    "strat": "Prior-therapy stratum (1 = naive, 2 = >1 to 52 weeks, 3 = >52 weeks)",
+}
+TARGET_DESCRIPTION = "1 = AIDS-defining event or death during follow-up, 0 = censored (no event observed)"
+
 # Columns in the raw UCI table that are deliberately NOT used, with the reason.
 DROPPED_COLUMNS = {
     "pidnum": "patient identifier - carries no clinical signal",
@@ -105,6 +130,9 @@ def report_frame(y_true, y_pred) -> pd.DataFrame:
         output_dict=True, zero_division=0,
     )
     frame = pd.DataFrame(report).T
+    if "accuracy" in frame.index:  # sklearn stores accuracy as a bare float; show it like its text report
+        frame.loc["accuracy", ["precision", "recall"]] = np.nan
+        frame.loc["accuracy", "support"] = frame.loc["macro avg", "support"]
     frame["support"] = frame["support"].astype(int)
     return frame
 
