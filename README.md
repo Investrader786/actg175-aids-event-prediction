@@ -76,11 +76,13 @@ The models are served through an interactive Streamlit app that scores an upload
 | `zprior` | Constant: every patient has the value 1 |
 
 **Preprocessing**, inside each model's pipeline and fitted on training data only:
+
 - Continuous columns: median imputation, then standard scaling.
 - Binary columns: most-frequent imputation, kept as 0/1.
 - `trt` and `strat`: one-hot encoding.
 
 **Train / test split:** stratified 80 / 20 with random seed 5440.
+
 - Train: 1,711 rows (24.37% events).
 - Test: 428 rows (104 events, 24.30%).
 
@@ -115,6 +117,7 @@ Evaluation on the held-out test set (428 patients):
 | Support Vector Machine | 0.6729 | 0.7301 | 0.3953 | 0.6538 | 0.4928 | 0.2912 |
 
 *Metric convention:* binary task, positive class = 1 (AIDS event / death).
+
 - Precision, Recall and F1 use `average='binary'` with `pos_label=1`.
 - AUC is the ROC-AUC of the predicted probability of class 1.
 - MCC is `matthews_corrcoef`.
@@ -139,6 +142,7 @@ All values are rounded to 4 decimals. Uploading `test_data.csv` to the app repro
 **<https://YOUR-APP-NAME.streamlit.app>**
 
 The app has three tabs:
+
 1. **Evaluate selected model:** the six metrics, the confusion matrix, the classification report, and downloadable predictions.
 2. **Compare all five models:** a metric table, a bar chart and ROC curves.
 3. **About the data & models.**
