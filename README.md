@@ -139,7 +139,7 @@ All values are rounded to 4 decimals. Uploading `test_data.csv` to the app repro
 
 ## Live Streamlit App
 
-**<https://YOUR-APP-NAME.streamlit.app>**
+**<https://actg175-outcome-evaluator-mani.streamlit.app>**
 
 The app has three tabs:
 
