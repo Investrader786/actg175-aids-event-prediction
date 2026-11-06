@@ -90,7 +90,7 @@ The test rows are saved as [`test_data.csv`](test_data.csv) (21 feature columns 
 
 ## c. GitHub Repository Link
 
-**<https://github.com/YOUR-GITHUB-USERNAME/actg175-aids-event-prediction>**
+**<https://github.com/Investrader786/actg175-aids-event-prediction>**
 
 ## d. Models Used
 
@@ -128,12 +128,12 @@ All values are rounded to 4 decimals. Uploading `test_data.csv` to the app repro
 
 | ML Model Name | Observation about model performance |
 |---|---|
-| Logistic Regression | *(to be written)* |
-| Decision Tree | *(to be written)* |
-| KNN | *(to be written)* |
-| Naive Bayes | *(to be written)* |
-| Support Vector Machine | *(to be written)* |
-| Overall, Winner for your dataset? | *(to be written)* |
+| Logistic Regression | Best overall: it has the highest AUC (0.7532), Recall (0.7212), F1 (0.5155) and MCC (0.3247), and catches 75 of the 104 actual events. Its Accuracy (0.6706) is the lowest of the five and below the 0.7570 scored by always predicting "no event", because balanced class weights accept more false alarms (112) in exchange for fewer missed events; without the weights, Recall falls to 0.2596 and MCC to 0.2582. It generalises best, with the smallest train-to-test MCC drop (0.3716 to 0.3247). The largest coefficient by far is `cd420` (-1.09), so a higher CD4 count at 20 weeks lowers the predicted risk. |
+| Decision Tree | Cross-validation chose a very shallow tree: CV MCC was 0.3660 at depth 2 and 0.33-0.34 at every greater depth. The saved tree uses only `cd420`, and its predictions reduce to one rule: predict an event when `cd420` is at or below 273.5 cells/mm³. This gives the second-best Accuracy (0.7266) and Precision (0.4435) but catches only 51 of the 104 events (Recall 0.4904). With just 4 leaves it outputs 4 distinct probabilities, so it ranks patients coarsely and its AUC is only 0.6983. |
+| KNN | It has the highest Accuracy (0.7593) and Precision (0.5217), but both are misleading: it predicts an event for only 23 of the 428 patients and catches just 12 of the 104 actual events (Recall 0.1154), so its Accuracy barely beats the 0.7570 baseline. It has the lowest AUC (0.6029), F1 (0.1890) and MCC (0.1549). KNN has no class-weight option, so the majority class tends to dominate the neighbourhoods, and no value of k tested raised CV MCC above 0.2312. Its training scores of 1.0000 come from distance weighting, where each training point is its own nearest neighbour, and do not show real skill. |
+| Naive Bayes | Weak overall: it ranks fourth on AUC (0.6693), Recall (0.4327), F1 (0.4000) and MCC (0.1887), and last on Precision (0.3719). Its independence assumption does not hold here: related features are strongly correlated, for example `str2` and `strat` (Spearman 0.92) and `cd80` and `cd820` (0.74), so the same evidence is counted more than once, which likely hurts it. GaussianNB also treats the 0/1 features as normally distributed. Tuning did not help, as CV MCC stayed at 0.3186 for every `var_smoothing` value except the largest. |
+| Support Vector Machine | Second best: it ranks second on AUC (0.7301), Recall (0.6538), F1 (0.4928) and MCC (0.2912), catching 68 of the 104 events with 104 false alarms. Like Logistic Regression it uses balanced class weights, so its Accuracy (0.6729) is also below the 0.7570 baseline. The RBF kernel shows no clear gain over the linear model, which suggests the signal is mostly linear, and it overfits more (train-to-test MCC drop 0.4295 to 0.2912). It is also the slowest model to fit, because `probability=True` adds internal cross-validation for calibration. |
+| Overall, Winner for your dataset? | **Logistic Regression.** MCC is the primary metric because only 24.3% of test patients have an event, so Accuracy rewards models that rarely predict one: KNN has the best Accuracy but the worst MCC. Logistic Regression is best on MCC, AUC, Recall and F1, has the smallest train-to-test drop and is easy to interpret through its coefficients; the SVM is the runner-up. The trade-off is the lowest Accuracy and the most false alarms (112), which is acceptable when flagging at-risk patients matters more than raw Accuracy. The win is not decisive: in cross-validation the top three were within one standard deviation of each other (Decision Tree 0.3660, SVM 0.3604, Logistic Regression 0.3554), and skill is only moderate, with every test MCC below 0.33. |
 
 ---
 
