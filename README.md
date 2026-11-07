@@ -136,11 +136,6 @@ All values are rounded to 4 decimals. Uploading `test_data.csv` to the app repro
 | Overall, Winner for your dataset? | **Logistic Regression.** The dataset is imbalanced, with only 24.3% of test patients experiencing an event, so MCC is more informative than Accuracy because it considers all four confusion matrix outcomes. It has the highest test MCC (0.3247), Recall (0.7212), AUC (0.7532) and F1 (0.5155), and the smallest train-to-test MCC drop. The trade-off is the lowest Accuracy (0.6706) and the most false alarms (112). Cross-validation is close (Decision Tree 0.3660, SVM 0.3604, Logistic Regression 0.3554, within one standard deviation), so the win is not decisive, and with a test MCC of 0.3247 it is a useful risk-flagging model rather than a definitive clinical decision-making system. |
 
 ---
-
-## AI Assistance
-
-I used Claude (Anthropic) as an AI coding assistant on this project. Claude recommended the dataset, which I accepted, and wrote the code, the training notebook, the Streamlit app and the rest of this README. I ran the notebook on the BITS Virtual Lab, deployed the app, and wrote the observations myself; Claude shortened them to fit the table and checked the numbers.
-
 ## Live Streamlit App
 
 **<https://actg175-outcome-evaluator-mani.streamlit.app>**
